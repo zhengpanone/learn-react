@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2_对props进行限制</title>
+</head>
+
+<body>
+    <div id="test1"></div>
+    <!-- <div id="test2"></div>
+    <div id="test3"></div> -->
+    <script src="../js/react.development.js"></script>
+    <script src="../js/react-dom.development.js"></script>
+    <script src="../js/babel.min.js"></script>
+    <script src="../js/prop-types.js"></script>
+    <script type="text/babel">
+        // 创建组件
+        class Person extends React.Component {
+            // 构造器是否接收props,是否传递super,取决于:是否希望在构造器中通过this访问props
+            constructor(props) {
+                console.log(props);
+                super(props)
+            }
+            // 对标签属性进行类型、必要性的限制
+            static propTypes = {
+                name: PropTypes.string.isRequired, //限制name为string,必传
+                age: PropTypes.number,
+                sex: PropTypes.string,
+                speak: PropTypes.func // 限制speak为function
+            }
+            // 指定默认标签属性值
+            static defaultProps = {
+                sex: '未知', // 指定默认值
+                age: 28
+            }
+            render() {
+                console.log(this);
+                // props是只读的
+                const { name, age, sex } = this.props
+                return (
+                    <ul>
+                        <li>姓名:{name}</li>
+                        <li>性别:{age + 1}</li>
+                        <li>年龄:{sex}</li>
+                    </ul>
+                )
+            }
+        }
+
+        // 渲染到页面
+        ReactDOM.render(<Person name='Tom' />, document.getElementById('test1'))
+        // ReactDOM.render(<Person name='Aim' sex='女' speak={speak} />, document.getElementById('test2'))
+
+        /* ReactDOM.render(<Person name='Sun' age='20' sex='男' />, document.getElementById('test3')) */
+        /* const p = { name: 'Sun', age: 20, }
+        ReactDOM.render(<Person {...p} />, document.getElementById('test3'))
+
+        function speak() {
+            console.log('I can Speak');
+        } */
+    </script>
+</body>
+
+</html>
